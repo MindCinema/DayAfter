@@ -1,0 +1,28 @@
+Story
+    Postapokalyptisch
+
+Gameplay
+    Survival
+    Basismangement
+    vorgegebene Basen (nicht selber bauen)
+    Instanzen in der Welt mit detaillierten Orten (Höhlen, Lagerhallen, ...)
+    Mutanten (vllt. bei Nacht stärker)
+    Basis muss mit Energie versorgt und gewartet werden
+    Jahreszeiten
+    Umwelt gefährlich
+    evtl. Radioaktivität
+    Im Coop Charakter spezialisierbar
+    Im Singleplayer kann alles geskillt werden (evtl. noch KI Helfer?)
+    Zufallsevents
+    Hunger/Durst/Müdigkeit
+    Verletzungen
+    Schutzanzüge
+    Basis mit Komponenten aufrüstbar
+    Komponenten der Basis aufrüstbar
+    Basis erweiterbar (Größe innen, außen auch sichtbar, mehr Komponenten)
+    Ressourcen als Zahlungmethode für Upgrades/Wartung
+    Eventuell Forschung von Upgrades erst nötig (Spezialisierung Forscher)?`
+    Forschung bezahlbar mit? (Forschungspunkte woher? Technik aus Ruinen untersuchen? Welt „erforschen“?...)
+
+Technik
+
