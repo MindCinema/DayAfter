@@ -6,27 +6,28 @@ Gameplay
     Survival
     Basismangement
     vorgegebene Basen (nicht selber bauen)
-    Instanzen in der Welt mit detaillierten Orten (Höhlen, Lagerhallen, ...)
-    Mutanten (vllt. bei Nacht stärker)
+    Instanzen in der Welt mit detaillierten Orten (HÃ¶hlen, Lagerhallen, ...)
+    Mutanten (vllt. bei Nacht stÃ¤rker)
     Basis muss mit Energie versorgt und gewartet werden
     Jahreszeiten
-    Umwelt gefährlich
-    evtl. Radioaktivität
+    Umwelt gefÃ¤hrlich
+    evtl. RadioaktivitÃ¤t
     Im Coop Charakter spezialisierbar
     Im Singleplayer kann alles geskillt werden (evtl. noch KI Helfer?)
     Zufallsevents
-    Hunger/Durst/Müdigkeit
+    Hunger/Durst/MÃ¶digkeit
     Verletzungen
-    Schutzanzüge
-    Basis mit Komponenten aufrüstbar (große, kleine und mittlere Bauplätze an denen Komponenten gebaut werden können)
-    Komponenten der Basis aufrüstbar
-    Basis erweiterbar (Größe innen, außen auch sichtbar, mehr Komponenten, Ausbau nach unten, Kellergeschosse?)
-    Ressourcen als Zahlungmethode für Upgrades/Wartung
-    Eventuell Forschung von Upgrades erst nötig (Spezialisierung Forscher)?`
-    Forschung bezahlbar mit? (Forschungspunkte woher? Technik aus Ruinen untersuchen? Welt „erforschen“?...)
+    Krankheiten
+    SchutzanzÃ¼ge
+    Basis mit Komponenten aufrÃ¼stbar (groÃŸe, kleine und mittlere BauplÃ¤tze an denen Komponenten gebaut werden kÃ¶nnen)
+    Komponenten der Basis aufrÃ¼stbar
+    Basis erweiterbar (GrÃ¶ÃŸe innen, auÃŸen auch sichtbar, mehr Komponenten, Ausbau nach unten, Kellergeschosse?)
+    Ressourcen als Zahlungmethode fÃ¼r Upgrades/Wartung
+    Eventuell Forschung von Upgrades erst nÃ¶tig (Spezialisierung Forscher)?`
+    Forschung bezahlbar mit? (Forschungspunkte woher? Technik aus Ruinen untersuchen? Welt "erforschen"?...)
 
 Objekte
-    Generator (klein, mittel, groß unterschiedliche KW, Spritverbrauch, etc.)
-    Lichter (innen? außen? Stromverbrauch)
+    Generator (klein, mittel, groÃŸ unterschiedliche KW, Spritverbrauch, etc.)
+    Lichter (innen? auÃŸen? Stromverbrauch)
 
 Technik
