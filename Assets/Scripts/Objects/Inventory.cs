@@ -24,12 +24,32 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        throw new NotImplementedException();
+        Items = new List<Item>();
     }
 
     private void Update()
     {
-        throw new NotImplementedException();
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("Klick!");
+        var player = GameObject.Find("Player");
+        if (player != null)
+        {
+            var playerPos = player.transform.position;
+            var boxPos = gameObject.transform.position;
+            var distance = Vector3.Distance(playerPos, boxPos);
+            if (distance < 5)
+            {
+                Debug.Log("Inventar auf");
+            }
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        Debug.Log("Mouse over");
     }
 
     public bool AddItem(Item Item)
