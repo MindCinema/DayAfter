@@ -8,7 +8,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
-    private List<Item> Items;
+    private List<InventoryItem> Items;
 
     public int MaxWeight;
     public float Radius;
@@ -23,16 +23,19 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        Items = new List<Item>();         
-        var inventoryCollider = gameObject.AddComponent<SphereCollider>();
-        if (Radius == 0)
+        if (!gameObject.tag.Equals("Player"))
         {
-            inventoryCollider.radius = 3;
-        } else
-        {
-            inventoryCollider.radius = Radius;
+            var inventoryCollider = gameObject.AddComponent<SphereCollider>();
+            if (Radius == 0)
+            {
+                inventoryCollider.radius = 3;
+            }
+            else
+            {
+                inventoryCollider.radius = Radius;
+            }
+            inventoryCollider.isTrigger = true;
         }
-        inventoryCollider.isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -58,7 +61,7 @@ public class Inventory : MonoBehaviour
     {
     }
 
-    public bool AddItem(Item Item)
+    public bool AddItem(InventoryItem Item)
     {
         double itemWeight = Item.Weight;
         if (MaxWeight - Weight < itemWeight)
@@ -69,7 +72,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    public void RemoveItem(Item Item)
+    public void RemoveItem(InventoryItem Item)
     {
         Items.Remove(Item);
     }

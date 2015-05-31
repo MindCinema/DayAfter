@@ -26,11 +26,29 @@ public class Player : MonoBehaviour
             if (!InventoryCanvas.gameObject.activeSelf)
             {
                 InventoryCanvas.gameObject.SetActive(true);
-            } else
+            }
+            else
             {
                 InventoryCanvas.gameObject.SetActive(false);
             }
         }
+
+        var speed = 6.0f;
+        var gravity = 20.0f;
+        var moveDirection = Vector3.zero;
+        CharacterController controller = GetComponent<CharacterController>();
+        if (controller.isGrounded)
+        {
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
+        }
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
     }
 
     private void InventoryRangeEntered(GameObject inventoryObject)
