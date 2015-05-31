@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 [Serializable]
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
     private List<Item> Items;
-    private GameObject Canvas;
 
     public int MaxWeight;
+    public float Radius;
 
     public double Weight
     {
@@ -24,35 +23,35 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        Items = new List<Item>();
-        Canvas = GameObject.Find("Canvas");
+        Items = new List<Item>();         
+        var inventoryCollider = gameObject.AddComponent<SphereCollider>();
+        if (Radius == 0)
+        {
+            inventoryCollider.radius = 3;
+        } else
+        {
+            inventoryCollider.radius = Radius;
+        }
+        inventoryCollider.isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        collider.gameObject.SendMessage("InventoryRangeEntered", this.gameObject);
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        collider.gameObject.SendMessage("InventoryRangeLeft", this.gameObject);
     }
 
     private void Update()
     {
-        if (Input.GetButton("Inventory"))
-        {
-            Debug.Log("Inventory");
-        }
-        var image = Canvas.GetComponentInChildren<Image>();
-        if (IsBoxNearPlayer())
-        {
-            Debug.Log("Bild zeigen");
-            image.CrossFadeAlpha(1, 0, true);
-        }
-        else
-        {
-            Debug.Log("Bild verstecken");
-            image.CrossFadeAlpha(0, 0, true);
-        }
+
     }
 
     private void OnMouseDown()
     {
-        if (IsBoxNearPlayer())
-        {
-            Debug.Log("Inventar auf");
-        }
     }
 
     private void OnMouseOver()
@@ -73,21 +72,5 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(Item Item)
     {
         Items.Remove(Item);
-    }
-
-    private bool IsBoxNearPlayer()
-    {
-        var player = GameObject.Find("Player");
-        if (player != null)
-        {
-            var playerPos = player.transform.position;
-            var boxPos = gameObject.transform.position;
-            var distance = Vector3.Distance(playerPos, boxPos);
-            if (distance < 5)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
