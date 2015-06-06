@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BaseComponent : MonoBehaviour
+public abstract class BaseComponent : MonoBehaviour
 {
     public string Name;
     public BaseComponentTypes Type;
     public Base Base;
-    public int EnergyChange;
 
     public enum BaseComponentTypes
     {
         Empty,
         Generator,
-        Light
+        Light,
+        Door
     }
 
     // Use this for initialization
@@ -22,12 +22,14 @@ public class BaseComponent : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {        
     }
 
-    public void HandleEnergy()
+    void OnMouseDown()
     {
-        Base.ModifyEnergy(EnergyChange);
+        Use();
     }
+
+    public abstract bool Action();
+    public abstract bool Use();
 }

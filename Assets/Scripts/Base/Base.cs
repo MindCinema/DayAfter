@@ -4,43 +4,25 @@ using System.Collections.Generic;
 public class Base : MonoBehaviour
 {
     public int MaxComponents;
-    public BaseComponent[] components;
+    public List<BaseComponent> Components;
     public int MaxEnergy;
-    private int energy;
+    public int Energy;
     // Use this for initialization
     void Start()
     {
-        components = new BaseComponent[MaxComponents];
+        InvokeRepeating("RunActions", 1, 1);        
     }
 
     // Update is called once per frame
     void Update()
     {
-        InvokeRepeating("UpdateEnergy", 1.0f, 1.0f);
     }
 
-    public void UpdateEnergy(int Amount)
+    public void RunActions()
     {
-        foreach (var component in components)
+        foreach (var component in Components)
         {
-            component.HandleEnergy();
-        }
-    }
-
-    public void ModifyEnergy(int Amount)
-    {
-        var result = energy + Amount;
-        if (result > MaxEnergy)
-        {
-            energy = MaxEnergy;
-        }
-        else if (result < 0)
-        {
-            energy = 0;
-        }
-        else
-        {
-            energy = 0;
+            component.Action();
         }
     }
 }
