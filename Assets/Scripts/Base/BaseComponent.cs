@@ -6,6 +6,7 @@ public abstract class BaseComponent : MonoBehaviour
     public string Name;
     public BaseComponentTypes Type;
     public Base Base;
+    public bool IsRunning;
 
     public enum BaseComponentTypes
     {
@@ -30,6 +31,25 @@ public abstract class BaseComponent : MonoBehaviour
         Use();
     }
 
+    protected void UseEnergy(int amount)
+    {
+        Base.Energy -= amount;
+    }
+
+    protected bool BaseHasEnoughEnergy(int amount)
+    {
+        if (Base.Energy - amount >= 0)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
     public abstract bool Action();
-    public abstract bool Use();
+    public virtual void Use()
+    {
+        IsRunning = !IsRunning;
+    }
 }

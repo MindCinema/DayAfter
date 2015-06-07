@@ -5,7 +5,6 @@ public class Generator : BaseComponent
 {
     public int EnergyProduction;
     public int FuelConsumption;
-    public bool IsRunning;
     // Use this for initialization
     void Start()
     {
@@ -41,11 +40,5 @@ public class Generator : BaseComponent
         {
             return false;
         }
-    }
-
-    public override bool Use()
-    {
-        IsRunning = !IsRunning;
-        return true;
     }
 }
