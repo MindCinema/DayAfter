@@ -1,0 +1,8 @@
+Sonnendauer
+y = 8,5 * sin(pi/365 * x) + 8
+
+Sonnenaufgang:
+y = -180 * cos((pi/12 * x) - (Sonnendauer/24))
+
+Sonnnenuntergang:
+y = -180 * cos((pi/12 * x) + (Sonnendauer/24))

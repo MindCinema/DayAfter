@@ -10,7 +10,7 @@ public abstract class BaseComponent : MonoBehaviour
 
     public enum BaseComponentTypes
     {
-        Empty,
+        None,
         Generator,
         Light,
         Door
