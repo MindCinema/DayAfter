@@ -9,15 +9,25 @@ public class Gamemode : MonoBehaviour
     private DateTime GameTime;
     public GameObject Sun;
     private const float rotation = 0.25f;
+    public static bool DebugMode = true;
 
     // Use this for initialization
     void Start()
     {
-        Debug.Log(rotation);
-        GameTime = new DateTime(2040, 6, 1, 12, 0, 0);
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(rotation);
+        }
+        GameTime = new DateTime(2040, 6, 1, 2, 0, 0);
         var rotationCorrection = -90 + (GameTime.TimeOfDay.TotalMinutes * rotation);
-        Debug.Log(GameTime.TimeOfDay.TotalMinutes);
-        Debug.Log(rotationCorrection);
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(GameTime.TimeOfDay.TotalMinutes);
+        }
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(rotationCorrection);
+        }
         Sun.transform.rotation = Quaternion.Euler((float)rotationCorrection, 90, 0);
         InvokeRepeating("UpdateTime", 1, 1);
     }

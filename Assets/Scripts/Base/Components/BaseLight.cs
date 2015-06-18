@@ -40,16 +40,32 @@ public class BaseLight : BaseComponent
 
     private void EnableLights()
     {
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " enabling LightSources " + LightSources);
+        }
         foreach (var light in LightSources)
         {
+            if (Gamemode.DebugMode)
+            {
+                Debug.Log(name + " enabling " + light);
+            }
             light.SetActive(true);
         }
     }
 
     private void DisableLights()
     {
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " disabling LightSources " + LightSources);
+        }
         foreach (var light in LightSources)
         {
+            if (Gamemode.DebugMode)
+            {
+                Debug.Log(name + " disabling " + light);
+            }
             light.SetActive(false);
         }
     }

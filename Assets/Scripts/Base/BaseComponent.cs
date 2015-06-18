@@ -7,6 +7,15 @@ public abstract class BaseComponent : MonoBehaviour
     public BaseComponentTypes Type;
     public Base Base;
     public bool IsRunning;
+    public GameObject IndicationLight;
+    public IndicationLightModes IndicationLightMode;
+    public Animator IndicationLightAnimator;
+
+    public enum IndicationLightModes
+    {
+        Glow,
+        Animation
+    }
 
     public enum BaseComponentTypes
     {
@@ -19,15 +28,27 @@ public abstract class BaseComponent : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (IndicationLight != null)
+        {
+            IndicationLight.SetActive(IsRunning);
+            if (IndicationLightMode == IndicationLightModes.Animation)
+            {
+                IndicationLightAnimator.enabled = IsRunning;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
-    {        
+    {
     }
 
     void OnMouseDown()
     {
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " OnMouseDown");
+        }
         Use();
     }
 
@@ -41,7 +62,8 @@ public abstract class BaseComponent : MonoBehaviour
         if (Base.Energy - amount >= 0)
         {
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -50,6 +72,22 @@ public abstract class BaseComponent : MonoBehaviour
     public abstract bool Action();
     public virtual void Use()
     {
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " use action");
+        }
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " is running " + IsRunning + " + set to " + !IsRunning);
+        }
         IsRunning = !IsRunning;
+        if (IndicationLight != null)
+        {
+            IndicationLight.SetActive(IsRunning);
+            if (IndicationLightMode == IndicationLightModes.Animation)
+            {
+                IndicationLightAnimator.enabled = IsRunning;
+            }
+        }
     }
 }

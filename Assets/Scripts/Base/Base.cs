@@ -10,7 +10,7 @@ public class Base : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("RunActions", 1, 1);        
+        InvokeRepeating("RunActions", 1, 1);
     }
 
     // Update is called once per frame
@@ -20,8 +20,16 @@ public class Base : MonoBehaviour
 
     public void RunActions()
     {
+        if (Gamemode.DebugMode)
+        {
+            Debug.Log(name + " BaseComponents: " + Components);
+        }
         foreach (var component in Components)
         {
+            if (Gamemode.DebugMode)
+            {
+                Debug.Log("Aktion von Komponente " + component.name);
+            }
             component.Action();
         }
     }
