@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public Image InventoryImage;
     public Canvas InventoryCanvas;
     private List<GameObject> InventoryObjects;
+    public Camera PlayerCamera;
 
     // Use this for initialization
     private void Start()
@@ -32,19 +33,14 @@ public class Player : MonoBehaviour
                 InventoryCanvas.gameObject.SetActive(false);
             }
         }
-
-        var speed = 6.0f;
-        var gravity = 20.0f;
-        var moveDirection = Vector3.zero;
-        CharacterController controller = GetComponent<CharacterController>();
-        if (controller.isGrounded)
+        var pos = gameObject.transform.position;
+        if (Gamemode.DebugMode)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= speed;
+            Debug.Log(name + " playerPos " + pos);
         }
-        moveDirection.y -= gravity * Time.deltaTime;
-        controller.Move(moveDirection * Time.deltaTime);
+        pos.y = pos.y + 10;
+        pos.z = pos.z - 5;
+        PlayerCamera.transform.position = pos;
     }
 
     private void FixedUpdate()
