@@ -49,7 +49,18 @@ public abstract class BaseComponent : MonoBehaviour
         {
             Debug.Log(name + " OnMouseDown");
         }
-        Use();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            if (Vector3.Distance(player.transform.position, transform.position) < 1)
+            {
+                Use();
+            }
+            else if (Gamemode.DebugMode)
+            {
+                Debug.Log(name + " player too far away for use");
+            }
+        }
     }
 
     protected void UseEnergy(int amount)
