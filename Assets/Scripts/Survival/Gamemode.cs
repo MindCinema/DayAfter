@@ -10,6 +10,11 @@ public class Gamemode : MonoBehaviour
     public GameObject Sun;
     private const float rotation = 0.25f;
     public static bool DebugMode = true;
+    public int StartYear;
+    public int StartMonth;
+    public int StartDay;
+    public int StartHour;
+    public int StartMinute;
 
     // Use this for initialization
     void Start()
@@ -18,7 +23,7 @@ public class Gamemode : MonoBehaviour
         {
             Debug.Log(rotation);
         }
-        GameTime = new DateTime(2040, 6, 1, 2, 0, 0);
+        GameTime = new DateTime(StartYear, StartMonth, StartDay, StartHour, StartMinute, 0);
         var rotationCorrection = -90 + (GameTime.TimeOfDay.TotalMinutes * rotation);
         if (Gamemode.DebugMode)
         {
