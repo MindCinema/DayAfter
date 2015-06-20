@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     public Canvas InventoryCanvas;
     private List<GameObject> InventoryObjects;
     public Camera PlayerCamera;
+    private float CameraDistance = 8;
 
     // Use this for initialization
     private void Start()
@@ -33,14 +35,20 @@ public class Player : MonoBehaviour
                 InventoryCanvas.gameObject.SetActive(false);
             }
         }
+        var newCameraDistance = CameraDistance - Input.GetAxis("Mouse ScrollWheel");
+        if (newCameraDistance > 10) newCameraDistance = 10;
+        if (newCameraDistance < 5) newCameraDistance = 5;
+        CameraDistance = newCameraDistance;
         var pos = gameObject.transform.position;
         if (Gamemode.DebugMode)
         {
             Debug.Log(name + " playerPos " + pos);
         }
-        pos.y = pos.y + 10;
-        pos.z = pos.z - 5;
+        pos.y = pos.y + CameraDistance;
+        pos.z = pos.z - (CameraDistance / 2);
         PlayerCamera.transform.position = pos;
+
+
     }
 
     private void FixedUpdate()
