@@ -22,7 +22,8 @@ public abstract class BaseComponent : MonoBehaviour
         None,
         Generator,
         Light,
-        Door
+        Door,
+        Solarpanel
     }
 
     // Use this for initialization
@@ -60,23 +61,6 @@ public abstract class BaseComponent : MonoBehaviour
             {
                 Debug.Log(name + " player too far away for use");
             }
-        }
-    }
-
-    protected void UseEnergy(int amount)
-    {
-        Base.Energy -= amount;
-    }
-
-    protected bool BaseHasEnoughEnergy(int amount)
-    {
-        if (Base.Energy - amount >= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 

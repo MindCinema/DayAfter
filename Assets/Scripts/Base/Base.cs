@@ -18,6 +18,32 @@ public class Base : MonoBehaviour
     {
     }
 
+    public void AddEnergy(int Amount)
+    {
+        var newEnergy = Energy + Amount;
+        if (newEnergy > MaxEnergy)
+        {
+            Energy = MaxEnergy;
+        } else
+        {
+            Energy = newEnergy;
+        }
+    }
+
+    public bool UseEnergy(int Amount)
+    {
+        var newEnergy = Energy - Amount;
+        if (newEnergy < 0)
+        {
+            Energy = 0;
+            return false;
+        } else
+        {
+            Energy = newEnergy;
+            return true;
+        }
+    }
+
     public void RunActions()
     {
         if (Gamemode.DebugMode)

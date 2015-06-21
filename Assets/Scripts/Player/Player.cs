@@ -40,10 +40,6 @@ public class Player : MonoBehaviour
         if (newCameraDistance < 5) newCameraDistance = 5;
         CameraDistance = newCameraDistance;
         var pos = gameObject.transform.position;
-        if (Gamemode.DebugMode)
-        {
-            Debug.Log(name + " playerPos " + pos);
-        }
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
         PlayerCamera.transform.position = pos;

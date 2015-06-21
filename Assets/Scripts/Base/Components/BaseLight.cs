@@ -19,22 +19,22 @@ public class BaseLight : BaseComponent
 
     public override bool Action()
     {
-        if (BaseHasEnoughEnergy(EnergyConsumption))
+        if (IsRunning)
         {
-            if (IsRunning)
+            if (Base.UseEnergy(EnergyConsumption))
             {
-                UseEnergy(EnergyConsumption);
                 EnableLights();
+                return true;
             } else
             {
                 DisableLights();
+                return false;
             }
-            return true;
         }
         else
         {
             DisableLights();
-            return false;
+            return true;
         }
     }
 
