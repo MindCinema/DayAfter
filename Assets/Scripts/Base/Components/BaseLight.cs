@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class BaseLight : BaseComponent
 {
-    public int EnergyConsumption;
     public List<GameObject> LightSources;
     // Use this for initialization
     void Start()
@@ -25,7 +24,8 @@ public class BaseLight : BaseComponent
             {
                 EnableLights();
                 return true;
-            } else
+            }
+            else
             {
                 DisableLights();
                 return false;

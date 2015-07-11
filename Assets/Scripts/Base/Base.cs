@@ -5,11 +5,17 @@ public class Base : MonoBehaviour
 {
     public int MaxComponents;
     public List<BaseComponent> Components;
-    public int MaxEnergy;
-    public int Energy;
+    public double MaxEnergy;
+    public double Energy;
+    public double Fuel;
+    public double MaxFuel;
     // Use this for initialization
     void Start()
     {
+        foreach (var component in Components)
+        {
+            component.SetBase(this);
+        }
         InvokeRepeating("RunActions", 1, 1);
     }
 
@@ -18,7 +24,7 @@ public class Base : MonoBehaviour
     {
     }
 
-    public void AddEnergy(int Amount)
+    public void AddEnergy(double Amount)
     {
         var newEnergy = Energy + Amount;
         if (newEnergy > MaxEnergy)
@@ -30,7 +36,7 @@ public class Base : MonoBehaviour
         }
     }
 
-    public bool UseEnergy(int Amount)
+    public bool UseEnergy(double Amount)
     {
         var newEnergy = Energy - Amount;
         if (newEnergy < 0)
@@ -40,6 +46,21 @@ public class Base : MonoBehaviour
         } else
         {
             Energy = newEnergy;
+            return true;
+        }
+    }
+
+    public bool UseFuel(double Amount)
+    {
+        var newFuel = Fuel - Amount;
+        if (newFuel < 0)
+        {
+            Fuel = 0;
+            return false;
+        }
+        else
+        {
+            Fuel = newFuel;
             return true;
         }
     }

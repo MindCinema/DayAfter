@@ -3,8 +3,6 @@ using System.Collections;
 
 public class Generator : BaseComponent
 {
-    public int EnergyProduction;
-    public int FuelConsumption;
     // Use this for initialization
     void Start()
     {
@@ -18,7 +16,7 @@ public class Generator : BaseComponent
 
     private bool HasFuel()
     {
-        return true;
+        return Base.UseFuel(FuelConsumption);
     }
 
     public override bool Action()

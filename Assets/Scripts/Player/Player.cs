@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private List<GameObject> InventoryObjects;
     public Camera PlayerCamera;
     private float CameraDistance = 8;
+    public int Health;
 
     // Use this for initialization
     private void Start()
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
                 InventoryCanvas.gameObject.SetActive(false);
             }
         }
-        var newCameraDistance = CameraDistance - Input.GetAxis("Mouse ScrollWheel");
+        var newCameraDistance = CameraDistance - (Input.GetAxis("Mouse ScrollWheel") * 4);
         if (newCameraDistance > 10) newCameraDistance = 10;
         if (newCameraDistance < 5) newCameraDistance = 5;
         CameraDistance = newCameraDistance;

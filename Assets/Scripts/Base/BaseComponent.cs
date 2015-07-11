@@ -5,11 +5,14 @@ public abstract class BaseComponent : MonoBehaviour
 {
     public string Name;
     public BaseComponentTypes Type;
-    public Base Base;
+    protected Base Base;
     public bool IsRunning;
     public GameObject IndicationLight;
     public IndicationLightModes IndicationLightMode;
     public Animator IndicationLightAnimator;
+    public double EnergyConsumption;
+    public double EnergyProduction;
+    public double FuelConsumption;
 
     public enum IndicationLightModes
     {
@@ -42,6 +45,11 @@ public abstract class BaseComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void SetBase(Base Base)
+    {
+        this.Base = Base;
     }
 
     void OnMouseDown()
