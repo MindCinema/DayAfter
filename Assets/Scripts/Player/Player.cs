@@ -44,8 +44,44 @@ public class Player : MonoBehaviour
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
         PlayerCamera.transform.position = pos;
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Building"))
+        {
+            EnterBuilding(other.gameObject);
+        }
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Building"))
+        {
+            LeaveBuilding(other.gameObject);
+        }
+    }
+
+    private void EnterBuilding(GameObject building)
+    {
+        foreach (Transform child in building.transform)
+        {
+            if (child.tag.Equals("Roof"))
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void LeaveBuilding(GameObject building)
+    {
+        foreach (Transform child in building.transform)
+        {
+            if (child.tag.Equals("Roof"))
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
     }
 
     private void FixedUpdate()
