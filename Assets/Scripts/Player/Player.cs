@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public Camera PlayerCamera;
     private float CameraDistance = 8;
     public int Health;
+    private bool IsInBuilding = false;
+    private GameObject Building = null;
 
     // Use this for initialization
     private void Start()
@@ -44,6 +46,20 @@ public class Player : MonoBehaviour
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
         PlayerCamera.transform.position = pos;
+        if (IsInBuilding)
+        {
+            foreach (Transform child in Building.transform)
+            {
+                if (child.tag.Equals("Floor"))
+                {
+                    if (child.position.y > gameObject.transform.position.y)
+                    {
+                        var renderer = child.GetComponent<Renderer>();
+                        renderer.enabled = false;
+                    }
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,23 +80,26 @@ public class Player : MonoBehaviour
 
     private void EnterBuilding(GameObject building)
     {
+        IsInBuilding = true;
+        Building = building;
         foreach (Transform child in building.transform)
         {
             if (child.tag.Equals("Roof"))
             {
-                child.gameObject.SetActive(false);
+                var renderer = child.GetComponent<Renderer>();
+                renderer.enabled = false;
             }
         }
     }
 
     private void LeaveBuilding(GameObject building)
     {
+        IsInBuilding = false;
+        Building = null;
         foreach (Transform child in building.transform)
         {
-            if (child.tag.Equals("Roof"))
-            {
-                child.gameObject.SetActive(true);
-            }
+            var renderer = child.GetComponent<Renderer>();
+            renderer.enabled = true;
         }
     }
 
