@@ -15,6 +15,14 @@ public class Player : MonoBehaviour
     public int Health;
     private bool IsInBuilding = false;
     private GameObject Building = null;
+    private Vector3 PlayerPos
+    {
+        get
+        {
+            var collider = gameObject.GetComponent<CapsuleCollider>();
+            return collider.center;
+        }
+    }
 
     // Use this for initialization
     private void Start()
@@ -52,7 +60,7 @@ public class Player : MonoBehaviour
             {
                 if (child.tag.Equals("Floor"))
                 {
-                    if (child.position.y > gameObject.transform.position.y)
+                    if (child.position.y > PlayerPos.y)
                     {
                         var renderer = child.GetComponent<Renderer>();
                         renderer.enabled = false;
