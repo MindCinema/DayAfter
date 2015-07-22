@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public abstract class BaseComponent : MonoBehaviour
@@ -6,13 +7,13 @@ public abstract class BaseComponent : MonoBehaviour
     public string Name;
     public BaseComponentTypes Type;
     protected Base Base;
-    public bool IsRunning;
+    public bool IsRunning, IsMaintenanceRequired;
     public GameObject IndicationLight;
     public IndicationLightModes IndicationLightMode;
     public Animator IndicationLightAnimator;
-    public double EnergyConsumption;
-    public double EnergyProduction;
-    public double FuelConsumption;
+    public double EnergyConsumption, EnergyProduction, FuelConsumption, MaintenanceModifier;
+    public int MaintenanceInterval, Condition;
+    public Canvas InteractionMenu;
 
     public enum IndicationLightModes
     {
@@ -61,6 +62,8 @@ public abstract class BaseComponent : MonoBehaviour
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
+            InteractionMenu.GetComponentInChildren<Text>().text = Name;
+            InteractionMenu.GetComponent<CanvasGroup>().alpha = 1;
             if (Vector3.Distance(player.transform.position, transform.position) < 1)
             {
                 Use();
