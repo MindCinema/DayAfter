@@ -126,6 +126,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: dc817e88cb40a2243a6b8567d021545f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: dc817e88cb40a2243a6b8567d021545f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: dc817e88cb40a2243a6b8567d021545f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400026, guid: dc817e88cb40a2243a6b8567d021545f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc817e88cb40a2243a6b8567d021545f, type: 3}
   m_IsPrefabParent: 0
@@ -754,6 +770,26 @@ Prefab:
     - target: {fileID: 433660, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
       propertyPath: m_LocalPosition.y
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499284, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
+      propertyPath: m_RunCycleLegOffset
+      value: 1.20000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469592, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469592, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5469592, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499284, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
+      propertyPath: m_GroundCheckDistance
+      value: .75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67a9e90438131744da28e07fa2af54a4, type: 2}
