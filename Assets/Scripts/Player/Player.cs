@@ -3,13 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using UnityStandardAssets.CrossPlatformInput;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
 
     public Image InventoryImage;
     public Canvas InventoryCanvas;
-    private List<GameObject> InventoryObjects;
+    private List<GameObject> InventoryObjects = new List<GameObject>();
     public Camera PlayerCamera;
     private float CameraDistance = 8;
     public int Health;
@@ -19,22 +21,88 @@ public class Player : MonoBehaviour
     {
         get
         {
-            var collider = gameObject.GetComponent<CapsuleCollider>();
-            return collider.center;
+            var collider = gameObject.GetComponent<CharacterController>();
+            return collider.transform.position + collider.center;
         }
     }
+    private Vector3 CameraPos
+    {
+        get
+        {
+            return PlayerCamera.transform.position;
+        }
+    }
+    private RaycastHit LinecastHit;
+    private List<Collider> HiddenObjects = new List<Collider>();
+    private List<Collider> ObjectsToHide = new List<Collider>();
 
     // Use this for initialization
     private void Start()
     {
-        InventoryObjects = new List<GameObject>();
         InventoryCanvas.gameObject.SetActive(false);
         InventoryImage.gameObject.SetActive(false);
+    }
+
+    private void FixedUpdate()
+    {
+    }
+
+    private void Move(float move, float turn, bool run)
+    {
+        CharacterController controller = GetComponent<CharacterController>();
+        transform.Rotate(0, turn * 3.0f, 0);
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        float moveSpeed, moveAnimSpeed;
+        if (run)
+        {
+            moveSpeed = move * 6.0f - Math.Abs(turn * 2);
+            moveAnimSpeed = 1.0f;
+        }
+        else
+        {
+            moveSpeed = move * 2.0f;
+            moveAnimSpeed = 0.56f;
+        }
+        controller.SimpleMove(forward * moveSpeed);
+        if (controller.isGrounded)
+        {
+            Animator animator = GetComponent<Animator>();
+            animator.SetFloat("Forward", moveAnimSpeed * move, 0.1f, Time.deltaTime);
+            animator.SetFloat("Turn", turn, 0.1f, Time.deltaTime);
+        }
+    }
+
+    private void HideObjects()
+    {
+        if (Physics.Linecast(CameraPos, PlayerPos, out LinecastHit))
+        {
+            ObjectsToHide.Add(LinecastHit.collider);
+        }
+
+        foreach (var objectToShow in HiddenObjects.Except<Collider>(ObjectsToHide))
+        {
+            var renderer = objectToShow.gameObject.GetComponent<Renderer>();
+            renderer.enabled = true;
+        }
+
+        foreach (var objectToHide in ObjectsToHide)
+        {
+            var renderer = objectToHide.gameObject.GetComponent<Renderer>();
+            renderer.enabled = false;
+            HiddenObjects.Add(objectToHide);
+        }
+
+        ObjectsToHide.Clear();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        float move = CrossPlatformInputManager.GetAxis("Vertical");
+        float turn = CrossPlatformInputManager.GetAxis("Horizontal");
+        bool run = Input.GetKey(KeyCode.LeftShift);
+        Move(move, turn, run);
+        HideObjects();
         if (Input.GetButtonDown("Inventory"))
         {
             if (!InventoryCanvas.gameObject.activeSelf)
@@ -109,10 +177,6 @@ public class Player : MonoBehaviour
             var renderer = child.GetComponent<Renderer>();
             renderer.enabled = true;
         }
-    }
-
-    private void FixedUpdate()
-    {
     }
 
     private void InventoryRangeEntered(GameObject inventoryObject)
