@@ -20,7 +20,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_Character = GetComponent<ThirdPersonCharacter>();
 
             // get the transform of the main camera
-            if (Camera.main != null)
+            if (m_Character.PlayerCamera != null)
             {
                 m_Cam = m_Character.PlayerCamera.transform;
             }
