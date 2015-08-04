@@ -48,7 +48,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             get
             {
-                var collider = gameObject.GetComponent<CapsuleCollider>();
+                var collider = gameObject.GetComponent<CharacterController>();
                 return collider.transform.position + collider.center;
             }
         }
@@ -105,8 +105,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // send input and other state parameters to the animator
             UpdateAnimator(move);
-
-            MoveCamera();
             HideObjects();
         }
 
@@ -268,12 +266,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 var renderer = collider.gameObject.GetComponent<Renderer>();
                 if (renderer != null)
                 {
-                    /*
                     Color color = renderer.material.color;
                     color.a -= 0.5f;
                     renderer.material.color = color;
                     HiddenObjects.Add(collider);
-                     */
                 }
             }
         }
