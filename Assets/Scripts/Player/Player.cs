@@ -8,9 +8,6 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
-
-    public Image InventoryImage;
-    public Canvas InventoryCanvas;
     private List<GameObject> InventoryObjects = new List<GameObject>();
     public Camera PlayerCamera;
     private float CameraDistance = 8;
@@ -39,8 +36,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        InventoryCanvas.gameObject.SetActive(false);
-        InventoryImage.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -70,6 +65,7 @@ public class Player : MonoBehaviour
             animator.SetFloat("Forward", moveAnimSpeed * move, 0.1f, Time.deltaTime);
             animator.SetFloat("Turn", turn, 0.1f, Time.deltaTime);
         }
+        MoveCamera();
     }
 
     private void HideObjects()
@@ -95,25 +91,8 @@ public class Player : MonoBehaviour
         ObjectsToHide.Clear();
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void MoveCamera()
     {
-        float move = CrossPlatformInputManager.GetAxis("Vertical");
-        float turn = CrossPlatformInputManager.GetAxis("Horizontal");
-        bool run = Input.GetKey(KeyCode.LeftShift);
-        Move(move, turn, run);
-        HideObjects();
-        if (Input.GetButtonDown("Inventory"))
-        {
-            if (!InventoryCanvas.gameObject.activeSelf)
-            {
-                InventoryCanvas.gameObject.SetActive(true);
-            }
-            else
-            {
-                InventoryCanvas.gameObject.SetActive(false);
-            }
-        }
         var newCameraDistance = CameraDistance - (Input.GetAxis("Mouse ScrollWheel") * 4);
         if (newCameraDistance > 10) newCameraDistance = 10;
         if (newCameraDistance < 5) newCameraDistance = 5;
@@ -122,20 +101,16 @@ public class Player : MonoBehaviour
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
         PlayerCamera.transform.position = pos;
-        if (IsInBuilding)
-        {
-            foreach (Transform child in Building.transform)
-            {
-                if (child.tag.Equals("Floor"))
-                {
-                    if (child.position.y > PlayerPos.y)
-                    {
-                        var renderer = child.GetComponent<Renderer>();
-                        renderer.enabled = false;
-                    }
-                }
-            }
-        }
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        float move = CrossPlatformInputManager.GetAxis("Vertical");
+        float turn = CrossPlatformInputManager.GetAxis("Horizontal");
+        bool run = Input.GetKey(KeyCode.LeftShift);
+        Move(move, turn, run);
+        HideObjects();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -176,21 +151,6 @@ public class Player : MonoBehaviour
         {
             var renderer = child.GetComponent<Renderer>();
             renderer.enabled = true;
-        }
-    }
-
-    private void InventoryRangeEntered(GameObject inventoryObject)
-    {
-        InventoryObjects.Add(inventoryObject);
-        InventoryImage.gameObject.SetActive(true);
-    }
-
-    private void InventoryRangeLeft(GameObject inventoryObject)
-    {
-        InventoryObjects.Remove(inventoryObject);
-        if (InventoryObjects.Count == 0)
-        {
-            InventoryImage.gameObject.SetActive(false);
         }
     }
 }
