@@ -17,7 +17,7 @@ public class Solarpanel : BaseComponent
 
     public override bool Action()
     {
-        if (Gamemode.Sun.IsShining())
+        if (GameEnvironment.Sun.IsShiningOn(transform.position))
         {
             Base.AddEnergy(EnergyProduction);
             return true;

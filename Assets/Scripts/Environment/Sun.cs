@@ -9,10 +9,10 @@ public class Sun : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        var rotationCorrection = -90 + (Gamemode.GameTime.TimeOfDay.TotalMinutes * rotation);
+        var rotationCorrection = -90 + (GameTime.DateTime.TimeOfDay.TotalMinutes * rotation);
         if (Gamemode.DebugMode)
         {
-            Debug.Log(Gamemode.GameTime.TimeOfDay.TotalMinutes);
+            Debug.Log(GameTime.DateTime.TimeOfDay.TotalMinutes);
         }
         if (Gamemode.DebugMode)
         {
@@ -27,7 +27,7 @@ public class Sun : MonoBehaviour
         transform.Rotate(Vector3.right, rotation * Time.deltaTime);
     }
 
-    public bool IsShining()
+    public bool IsUp()
     {
         if (Gamemode.DebugMode)
         {
@@ -35,5 +35,10 @@ public class Sun : MonoBehaviour
             Debug.Log(name + " is shining " + (transform.rotation.eulerAngles.x >= 0 && transform.rotation.eulerAngles.x <= 90));
         }
         return (transform.rotation.eulerAngles.x >= 0 && transform.rotation.eulerAngles.x <= 90);
+    }
+
+    public bool IsShiningOn(Vector3 position)
+    {
+        return Physics.Raycast(transform.position, position);
     }
 }

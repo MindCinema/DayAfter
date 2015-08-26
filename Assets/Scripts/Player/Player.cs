@@ -9,9 +9,9 @@ using System.Linq;
 public class Player : MonoBehaviour
 {
     private List<GameObject> InventoryObjects = new List<GameObject>();
-    public Camera PlayerCamera;
     private float CameraDistance = 8;
     public int Health;
+    public float Temperature;
     private bool IsInBuilding = false;
     private GameObject Building = null;
     private Vector3 PlayerPos
@@ -26,12 +26,11 @@ public class Player : MonoBehaviour
     {
         get
         {
-            return PlayerCamera.transform.position;
+            return Camera.main.transform.position;
         }
     }
     private RaycastHit LinecastHit;
     private List<Collider> HiddenObjects = new List<Collider>();
-    private List<Collider> ObjectsToHide = new List<Collider>();
 
     // Use this for initialization
     private void Start()
@@ -65,30 +64,39 @@ public class Player : MonoBehaviour
             animator.SetFloat("Forward", moveAnimSpeed * move, 0.1f, Time.deltaTime);
             animator.SetFloat("Turn", turn, 0.1f, Time.deltaTime);
         }
+        else
+        {
+            controller.Move(Vector3.down);
+        }
         MoveCamera();
     }
 
     private void HideObjects()
     {
-        if (Physics.Linecast(CameraPos, PlayerPos, out LinecastHit))
+        var direction = PlayerPos - CameraPos;
+        var ray = new Ray(CameraPos, direction);
+        var capsuleHits = Physics.SphereCastAll(ray, 2.0f);
+        Debug.DrawRay(CameraPos, direction);
+        var objectsToHide = new List<Collider>();
+
+        foreach (var hit in capsuleHits)
         {
-            ObjectsToHide.Add(LinecastHit.collider);
+            var collider = hit.collider;
+            objectsToHide.Add(collider);
         }
 
-        foreach (var objectToShow in HiddenObjects.Except<Collider>(ObjectsToHide))
+        foreach (var objectToShow in HiddenObjects.Except<Collider>(objectsToHide))
         {
             var renderer = objectToShow.gameObject.GetComponent<Renderer>();
             renderer.enabled = true;
         }
 
-        foreach (var objectToHide in ObjectsToHide)
+        foreach (var objectToHide in objectsToHide)
         {
             var renderer = objectToHide.gameObject.GetComponent<Renderer>();
             renderer.enabled = false;
             HiddenObjects.Add(objectToHide);
         }
-
-        ObjectsToHide.Clear();
     }
 
     private void MoveCamera()
@@ -100,7 +108,25 @@ public class Player : MonoBehaviour
         var pos = gameObject.transform.position;
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
-        PlayerCamera.transform.position = pos;
+        Camera.main.transform.position = pos;
+    }
+
+    private void UpdateTemperature()
+    {
+        if (IsInBuilding)
+        {
+            Temperature += 0.1f * Time.deltaTime;
+        }
+
+        if (Temperature >= 20 || Temperature <= 44)
+        {
+            Health = 0;
+        }
+    }
+
+    private void Die()
+    {
+
     }
 
     // Update is called once per frame
@@ -110,7 +136,12 @@ public class Player : MonoBehaviour
         float turn = CrossPlatformInputManager.GetAxis("Horizontal");
         bool run = Input.GetKey(KeyCode.LeftShift);
         Move(move, turn, run);
-        HideObjects();
+        //HideObjects();
+        UpdateTemperature();
+        if (Health == 0)
+        {
+            Die();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -133,24 +164,11 @@ public class Player : MonoBehaviour
     {
         IsInBuilding = true;
         Building = building;
-        foreach (Transform child in building.transform)
-        {
-            if (child.tag.Equals("Roof"))
-            {
-                var renderer = child.GetComponent<Renderer>();
-                renderer.enabled = false;
-            }
-        }
     }
 
     private void LeaveBuilding(GameObject building)
     {
         IsInBuilding = false;
         Building = null;
-        foreach (Transform child in building.transform)
-        {
-            var renderer = child.GetComponent<Renderer>();
-            renderer.enabled = true;
-        }
     }
 }
