@@ -9,7 +9,7 @@ using System.Linq;
 public class Player : MonoBehaviour
 {
     private List<GameObject> InventoryObjects = new List<GameObject>();
-    private float CameraDistance = 8;
+    private float CameraDistance = 60;
     public int Health;
     public float Temperature;
     private bool IsInBuilding = false;
@@ -49,12 +49,13 @@ public class Player : MonoBehaviour
         float moveSpeed, moveAnimSpeed;
         if (run)
         {
-            moveSpeed = move * 6.0f - Math.Abs(turn * 2);
+            moveSpeed = move * 45.0f - Math.Abs(turn * 15);
             moveAnimSpeed = 1.0f;
         }
         else
         {
-            moveSpeed = move * 2.0f;
+
+            moveSpeed = move * 15.0f - Math.Abs(turn * 5);
             moveAnimSpeed = 0.56f;
         }
         controller.SimpleMove(forward * moveSpeed);
@@ -101,9 +102,9 @@ public class Player : MonoBehaviour
 
     private void MoveCamera()
     {
-        var newCameraDistance = CameraDistance - (Input.GetAxis("Mouse ScrollWheel") * 4);
-        if (newCameraDistance > 10) newCameraDistance = 10;
-        if (newCameraDistance < 5) newCameraDistance = 5;
+        var newCameraDistance = CameraDistance - (Input.GetAxis("Mouse ScrollWheel") * 20);
+        if (newCameraDistance > 100) newCameraDistance = 100;
+        if (newCameraDistance < 40) newCameraDistance = 40;
         CameraDistance = newCameraDistance;
         var pos = gameObject.transform.position;
         pos.y = pos.y + CameraDistance;
