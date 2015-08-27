@@ -41,7 +41,10 @@ public class GameTime : MonoBehaviour
         var eventArgs = new DayChangedEventArgs();
         eventArgs.NewDay = DateTime.DayOfYear;
         eventArgs.OldDay = currentDay;
-        DayChanged(this, eventArgs);
+        if (DayChanged != null)
+        {
+            DayChanged(this, eventArgs);
+        }
         currentDay = DateTime.DayOfYear;
     }
 
@@ -50,7 +53,10 @@ public class GameTime : MonoBehaviour
         var eventArgs = new HourChangedEventArgs();
         eventArgs.NewHour = DateTime.Hour;
         eventArgs.OldHour = currentHour;
-        HourChanged(this, eventArgs);
+        if (HourChanged != null)
+        {
+            HourChanged(this, eventArgs);
+        }
         currentHour = DateTime.Hour;
     }
 
@@ -59,7 +65,10 @@ public class GameTime : MonoBehaviour
         var eventArgs = new MinuteChangedEventArgs();
         eventArgs.NewMinute = DateTime.Minute;
         eventArgs.OldMinute = currentMinute;
-        MinuteChanged(this, eventArgs);
+        if (MinuteChanged != null)
+        {
+            MinuteChanged(this, eventArgs);
+        }
         currentMinute = DateTime.Minute;
     }
 
