@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System;
 using UnityStandardAssets.CrossPlatformInput;
 using System.Linq;
+using UnityEngine.Networking;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     private List<GameObject> InventoryObjects = new List<GameObject>();
     private float CameraDistance = 60;
@@ -133,15 +134,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float move = CrossPlatformInputManager.GetAxis("Vertical");
-        float turn = CrossPlatformInputManager.GetAxis("Horizontal");
-        bool run = Input.GetKey(KeyCode.LeftShift);
-        Move(move, turn, run);
-        //HideObjects();
-        UpdateTemperature();
-        if (Health == 0)
+        if (isLocalPlayer)
         {
-            Die();
+            float move = CrossPlatformInputManager.GetAxis("Vertical");
+            float turn = CrossPlatformInputManager.GetAxis("Horizontal");
+            bool run = Input.GetKey(KeyCode.LeftShift);
+            Move(move, turn, run);
+            //HideObjects();
+            UpdateTemperature();
+            if (Health == 0)
+            {
+                Die();
+            }
         }
     }
 
