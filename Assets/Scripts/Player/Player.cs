@@ -103,10 +103,14 @@ public class Player : NetworkBehaviour
 
     private void MoveCamera()
     {
-        var newCameraDistance = CameraDistance - (Input.GetAxis("Mouse ScrollWheel") * 20);
-        if (newCameraDistance > 100) newCameraDistance = 100;
-        if (newCameraDistance < 40) newCameraDistance = 40;
-        CameraDistance = newCameraDistance;
+        var scrollWheelInput = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollWheelInput != 0)
+        {
+            var newCameraDistance = CameraDistance - (scrollWheelInput * 20);
+            if (newCameraDistance > 100) newCameraDistance = 100;
+            if (newCameraDistance < 40) newCameraDistance = 40;
+            CameraDistance = newCameraDistance;
+        }
         var pos = gameObject.transform.position;
         pos.y = pos.y + CameraDistance;
         pos.z = pos.z - (CameraDistance / 2);
