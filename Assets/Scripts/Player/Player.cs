@@ -44,6 +44,10 @@ public class Player : NetworkBehaviour
 
     private void Move(float move, float turn, bool run)
     {
+        if (move < 0)
+        {
+            move = 0;
+        }
         CharacterController controller = GetComponent<CharacterController>();
         transform.Rotate(0, turn * 3.0f, 0);
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -55,7 +59,6 @@ public class Player : NetworkBehaviour
         }
         else
         {
-
             moveSpeed = move * 15.0f - Math.Abs(turn * 5);
             moveAnimSpeed = 0.56f;
         }
