@@ -6,6 +6,7 @@ using System;
 using UnityStandardAssets.CrossPlatformInput;
 using System.Linq;
 using UnityEngine.Networking;
+using System.Text;
 
 public class Player : NetworkBehaviour
 {
@@ -20,7 +21,7 @@ public class Player : NetworkBehaviour
         get
         {
             var collider = gameObject.GetComponent<CharacterController>();
-            return collider.transform.position + collider.center;
+            return collider.transform.position + (collider.center * collider.GetComponent<Transform>().localScale.y);
         }
     }
     private Vector3 CameraPos
@@ -31,7 +32,7 @@ public class Player : NetworkBehaviour
         }
     }
     private RaycastHit LinecastHit;
-    private List<Collider> HiddenObjects = new List<Collider>();
+    private List<GameObject> HiddenObjects = new List<GameObject>();
 
     // Use this for initialization
     private void Start()
@@ -80,28 +81,47 @@ public class Player : NetworkBehaviour
     {
         var direction = PlayerPos - CameraPos;
         var ray = new Ray(CameraPos, direction);
+        if (Gamemode.DebugMode)
+        {
+            Debug.DrawRay(CameraPos, direction);
+        }
         var capsuleHits = Physics.SphereCastAll(ray, 2.0f);
-        Debug.DrawRay(CameraPos, direction);
-        var objectsToHide = new List<Collider>();
+        var objectsToHide = new List<GameObject>();
+        var raycastHits = new List<GameObject>();
 
         foreach (var hit in capsuleHits)
         {
-            var collider = hit.collider;
-            objectsToHide.Add(collider);
-        }
-
-        foreach (var objectToShow in HiddenObjects.Except<Collider>(objectsToHide))
-        {
-            var renderer = objectToShow.gameObject.GetComponent<Renderer>();
-            renderer.enabled = true;
+            var hitObject = hit.collider.gameObject;
+            raycastHits.Add(hitObject);
+            if (!HiddenObjects.Contains(hitObject))
+            {
+                objectsToHide.Add(hitObject);
+            }
         }
 
         foreach (var objectToHide in objectsToHide)
         {
-            var renderer = objectToHide.gameObject.GetComponent<Renderer>();
-            renderer.enabled = false;
+            var renderer = objectToHide.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.enabled = false;
+            }
             HiddenObjects.Add(objectToHide);
         }
+
+        foreach (var hiddenObject in HiddenObjects.ToList())
+        {
+            if (!raycastHits.Contains(hiddenObject))
+            {
+                var renderer = hiddenObject.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.enabled = true;
+                }
+                HiddenObjects.Remove(hiddenObject);
+            }
+        }
+        return;
     }
 
     private void MoveCamera()
@@ -149,7 +169,7 @@ public class Player : NetworkBehaviour
         float turn = CrossPlatformInputManager.GetAxis("Horizontal");
         bool run = Input.GetKey(KeyCode.LeftShift);
         Move(move, turn, run);
-        //HideObjects();
+        HideObjects();
         //UpdateTemperature();
         //if (Health == 0)
         //{
