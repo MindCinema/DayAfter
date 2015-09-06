@@ -141,19 +141,20 @@ public class Player : NetworkBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (isLocalPlayer)
+        if (!isLocalPlayer)
         {
-            float move = CrossPlatformInputManager.GetAxis("Vertical");
-            float turn = CrossPlatformInputManager.GetAxis("Horizontal");
-            bool run = Input.GetKey(KeyCode.LeftShift);
-            Move(move, turn, run);
-            //HideObjects();
-            UpdateTemperature();
-            if (Health == 0)
-            {
-                Die();
-            }
+            return;
         }
+        float move = CrossPlatformInputManager.GetAxis("Vertical");
+        float turn = CrossPlatformInputManager.GetAxis("Horizontal");
+        bool run = Input.GetKey(KeyCode.LeftShift);
+        Move(move, turn, run);
+        //HideObjects();
+        //UpdateTemperature();
+        //if (Health == 0)
+        //{
+        //    Die();
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
