@@ -86,41 +86,23 @@ public class Player : NetworkBehaviour
             Debug.DrawRay(CameraPos, direction);
         }
         var capsuleHits = Physics.SphereCastAll(ray, 2.0f);
-        var objectsToHide = new List<GameObject>();
-        var raycastHits = new List<GameObject>();
 
-        foreach (var hit in capsuleHits)
-        {
-            var hitObject = hit.collider.gameObject;
-            raycastHits.Add(hitObject);
-            if (!HiddenObjects.Contains(hitObject))
-            {
-                objectsToHide.Add(hitObject);
-            }
-        }
+        var raycastHits = (capsuleHits.Select(element => element.collider.gameObject));
+        var objectsToHide = raycastHits.Where(element => !HiddenObjects.Contains(element) && (element.GetComponent<Renderer>() != null));
+        var objectsToShow = HiddenObjects.Where(element => !raycastHits.Contains(element) && (element.GetComponent<Renderer>() != null));
 
         foreach (var objectToHide in objectsToHide)
         {
-            var renderer = objectToHide.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                renderer.enabled = false;
-            }
+            objectToHide.GetComponent<Renderer>().enabled = false;
             HiddenObjects.Add(objectToHide);
         }
 
-        foreach (var hiddenObject in HiddenObjects.ToList())
+        foreach (var objectToShow in objectsToShow)
         {
-            if (!raycastHits.Contains(hiddenObject))
-            {
-                var renderer = hiddenObject.GetComponent<Renderer>();
-                if (renderer != null)
-                {
-                    renderer.enabled = true;
-                }
-                HiddenObjects.Remove(hiddenObject);
-            }
+            objectToShow.GetComponent<Renderer>().enabled = true;
+            HiddenObjects.Remove(objectToShow);
         }
+
         return;
     }
 
