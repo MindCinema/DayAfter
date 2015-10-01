@@ -80,12 +80,13 @@ public class Player : NetworkBehaviour
     private void HideObjects()
     {
         var direction = PlayerPos - CameraPos;
+        var distance = Vector3.Distance(PlayerPos, CameraPos);
         var ray = new Ray(CameraPos, direction);
         if (Gamemode.DebugMode)
         {
             Debug.DrawRay(CameraPos, direction);
         }
-        var capsuleHits = Physics.SphereCastAll(ray, 2.0f);
+        var capsuleHits = Physics.SphereCastAll(ray, 2.0f, distance);
 
         var raycastHits = (capsuleHits.Select(element => element.collider.gameObject));
         var objectsToHide = raycastHits.Where(element => !HiddenObjects.Contains(element) && (element.GetComponent<Renderer>() != null));
@@ -97,7 +98,7 @@ public class Player : NetworkBehaviour
             HiddenObjects.Add(objectToHide);
         }
 
-        foreach (var objectToShow in objectsToShow)
+        foreach (var objectToShow in objectsToShow.ToList())
         {
             objectToShow.GetComponent<Renderer>().enabled = true;
             HiddenObjects.Remove(objectToShow);
